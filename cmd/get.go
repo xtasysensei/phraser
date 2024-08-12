@@ -28,8 +28,8 @@ func init() {
 }
 
 type GetWalletPayload struct {
-	WalletName    string   `json"walletname"`
-	WalletPhrases []string `json"walletphrases"`
+	WalletName    string   `json:"walletname"`
+	WalletPhrases []string `json:"walletphrases"`
 }
 
 func retrieveWallet(cmd *cobra.Command, args []string) {
