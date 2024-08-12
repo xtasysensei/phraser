@@ -2,7 +2,10 @@ module github.com/xtasysensei/phraser
 
 go 1.22
 
-require github.com/spf13/cobra v1.8.1
+require (
+	github.com/spf13/cobra v1.8.1
+	golang.org/x/crypto v0.26.0
+)
 
 require (
 	github.com/cpuguy83/go-md2man/v2 v2.0.4 // indirect

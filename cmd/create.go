@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/xtasysensei/phraser/cmd/utils"
 )
 
 // createCmd represents the create command
@@ -22,9 +23,6 @@ var createCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(createCmd)
 
-	createCmd.Flags().StringP("store", "s", "", "name of the store to access")
-	createCmd.Flags().StringP("wallet", "w", "", "name of the wallet to be created")
-	createCmd.Flags().IntP("amount", "a", 0, "amount of phrases to be inputed")
 }
 
 type WalletPayload struct {
@@ -47,6 +45,9 @@ func createWallet(cmd *cobra.Command, args []string) {
 	if _, err := os.Open(store); os.IsNotExist(err) {
 		cobra.CheckErr(err)
 	}
+	var passphrase string
+	fmt.Printf("Enter encrypt/decrypt passphrase> ")
+	fmt.Scan(&passphrase)
 
 	fmt.Println("Initializing Wallet...")
 	fileWallet := store + "." + wallet + ".json"
@@ -63,7 +64,9 @@ func createWallet(cmd *cobra.Command, args []string) {
 	fmt.Printf("Wallet %s successfully created in %s\n", wallet, store)
 	defer f.Close()
 
+	fmt.Println("---------------------------------")
 	fmt.Printf("Preparing Wallet %s for input...\n", wallet)
+	fmt.Println("---------------------------------")
 	phrases := make([]string, numberOfPhrases)
 
 	var phrase string
@@ -79,14 +82,11 @@ func createWallet(cmd *cobra.Command, args []string) {
 		WalletPhrases:   phrases,
 	}
 
-	// NOTE:using json.Marshal
-	//jsonData, err := json.Marshal(w)
-	//cobra.CheckErr(err)
-	//err = ioutil.WriteFile(filePath, jsonData, 0644)
-	//cobra.CheckErr(err)
-
-	encoder := json.NewEncoder(f)
-	encoder.Encode(w)
+	jsonData, err := json.Marshal(w)
+	encryptedData := utils.EncryptFile(passphrase, jsonData)
+	cobra.CheckErr(err)
+	err = os.WriteFile(filePath, encryptedData, 0644)
+	cobra.CheckErr(err)
 
 	fmt.Printf("Phrases successfully added to Wallet %s\n", wallet)
 

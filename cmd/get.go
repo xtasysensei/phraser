@@ -6,9 +6,11 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/xtasysensei/phraser/cmd/utils"
 )
 
 // getCmd represents the get command
@@ -22,9 +24,6 @@ var getCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(getCmd)
-
-	createCmd.Flags().StringP("store", "s", "", "name of the store to access")
-	createCmd.Flags().StringP("wallet", "w", "", "name of the wallet to be created")
 }
 
 type GetWalletPayload struct {
@@ -44,6 +43,11 @@ func retrieveWallet(cmd *cobra.Command, args []string) {
 		cobra.CheckErr(err)
 	}
 
+	var passphrase string
+	fmt.Printf("Enter encrypt/decrypt passphrase> ")
+	fmt.Scan(&passphrase)
+	fmt.Println("Decryptiing Wallet...")
+
 	fmt.Println("Retrieving Wallet...")
 	fileWallet := store + "." + wallet + ".json"
 	filePath := store + "/" + fileWallet
@@ -54,17 +58,18 @@ func retrieveWallet(cmd *cobra.Command, args []string) {
 		cobra.CheckErr(err)
 	}
 
-	f, _ := os.Open(filePath)
-	defer f.Close()
-
-	decoder := json.NewDecoder(f)
-
+	encryptedFile, err := ioutil.ReadFile(filePath)
+	cobra.CheckErr(err)
+	decryptedFile, err := utils.DecryptFile(passphrase, encryptedFile)
+	cobra.CheckErr(err)
+	fmt.Println("Decryption successful :)")
 	var getWallet GetWalletPayload
-	if err := decoder.Decode(&getWallet); err != nil {
+	if err := json.Unmarshal(decryptedFile, &getWallet); err != nil {
 		cobra.CheckErr(err)
 	}
 
-	fmt.Printf(" Phrases for %s\n", getWallet.WalletName)
+	fmt.Println("---------------------------------")
+	fmt.Printf("Phrases for %s\n", getWallet.WalletName)
 	fmt.Println("---------------------------------")
 	for i, val := range getWallet.WalletPhrases {
 		fmt.Printf("%d. %s\n", i+1, val)
