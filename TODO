@@ -1,0 +1,8 @@
+# TODO List
+
+## High Priority
+- [ ] Hide passphrase when it is inputed
+- [ ] Better formatting and color
+- [ ] Research on randon salt
+- [ ] Add deletion flag
+- [ ] Throw error if flag doesnt belong to a subcommand. better error handling

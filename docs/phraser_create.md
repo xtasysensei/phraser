@@ -13,8 +13,13 @@ phraser create [flags]
 ### Options
 
 ```
+  -h, --help   help for create
+```
+
+### Options inherited from parent commands
+
+```
   -a, --amount int      amount of phrases to be inputed
-  -h, --help            help for create
   -s, --store string    name of the store to access
   -w, --wallet string   name of the wallet to be created
 ```

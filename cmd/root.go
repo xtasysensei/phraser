@@ -37,6 +37,9 @@ func init() {
 
 	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.phraser.yaml)")
 
+	rootCmd.PersistentFlags().StringP("store", "s", "", "name of the store to access")
+	rootCmd.PersistentFlags().StringP("wallet", "w", "", "name of the wallet to be created")
+	rootCmd.PersistentFlags().IntP("amount", "a", 0, "amount of phrases to be inputed")
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")

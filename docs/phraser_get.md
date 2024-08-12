@@ -1,20 +1,20 @@
-## phraser init
+## phraser get
 
-Initializes a store
+Retrieves data stored in a wallet
 
 ### Synopsis
 
-This creates a directory that will be
-and usage of using your command.
+This retrieves the wallet phrases stored in the encrypted json files
+
 
 ```
-phraser init [flags]
+phraser get [flags]
 ```
 
 ### Options
 
 ```
-  -h, --help   help for init
+  -h, --help   help for get
 ```
 
 ### Options inherited from parent commands

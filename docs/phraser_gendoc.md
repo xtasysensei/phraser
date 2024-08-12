@@ -12,6 +12,14 @@ phraser gendoc [flags]
   -h, --help   help for gendoc
 ```
 
+### Options inherited from parent commands
+
+```
+  -a, --amount int      amount of phrases to be inputed
+  -s, --store string    name of the store to access
+  -w, --wallet string   name of the wallet to be created
+```
+
 ### SEE ALSO
 
 * [phraser](phraser.md)	 - A crypto wallet seedphrase store and manager
